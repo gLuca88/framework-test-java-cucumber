@@ -13,4 +13,11 @@ public abstract class BasePage {
         this.driver = driver;
         this.actions = new ElementActions(driver);
     }
+
+    protected String getCurrentUrl(){
+        return driver.getCurrentUrl();
+    }
+    protected String getTitlePageHtml(){
+        return driver.getTitle();
+    }
 }

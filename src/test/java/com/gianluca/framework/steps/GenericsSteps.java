@@ -8,14 +8,14 @@ public class GenericsSteps {
 
 
     private final TestContext context;
-    private final WebDriver driver;
+
 
     public GenericsSteps(TestContext context) {
         this.context = context;
-        this.driver = context.getDriver();
+
     }
     @Given("l'utente apre il sito")
     public void opnSite(){
-        driver.get("https://www.saucedemo.com/");
+        context.getDriver().get("https://www.saucedemo.com/");
     }
 }

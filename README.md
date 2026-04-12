@@ -15,8 +15,6 @@ Framework di test automation sviluppato in Java, progettato seguendo principi di
 ---
 
 ## 🏗️ Architettura del progetto
-
-
 src
 ├── main
 │ └── java

@@ -15,30 +15,35 @@ Framework di test automation sviluppato in Java, progettato seguendo principi di
 ---
 
 ## 🏗️ Architettura del progetto
-src
-├── main
-│ └── java
-│ └── com.gianluca.framework
-│ ├── config
-│ ├── driver
-│ ├── core
-│ │ ├── interfaces
-│ │ └── implementations
-│ └── pages
-│
-├── test
-│ ├── java
-│ │ └── com.gianluca.framework
-│ │ ├── context
-│ │ ├── hooks
-│ │ ├── reporting
-│ │ ├── steps
-│ │ └── utils
-│ │
-│ └── resources
-│ ├── features
-│ ├── config.properties
-│ └── log4j2.xml
+
+### 📦 Main (Framework Core)
+
+- **config** → gestione configurazioni
+- **driver** → gestione browser (DriverFactory, Provider)
+- **core**
+  - **interfaces** → contratti (Wait, Actions)
+  - **implementations** → implementazioni concrete
+- **pages** → Page Object Model
+
+---
+
+### 🧪 Test Layer
+
+- **context** → gestione stato test (TestContext)
+- **hooks** → lifecycle Cucumber (Before/After)
+- **reporting** → ExtentReports
+- **steps** → Step Definitions
+- **utils**
+  - ScreenshotUtil
+  - LoggerUtil
+
+---
+
+### 📂 Resources
+
+- **features** → scenari Cucumber
+- **config.properties** → configurazione test
+- **log4j2.xml** → configurazione logging
 
 ## ⚙️ Tecnologie utilizzate
 

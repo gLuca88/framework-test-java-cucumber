@@ -86,7 +86,7 @@ public class LoginSteps {
     }
 
     @When("effettua il logout")
-    public void performLogout() throws InterruptedException {
+    public void performLogout()  {
 
         ReportUtil.log("Eseguo logout utente");
         LoggerUtil.info("Click su menu hamburger e selezione logout");

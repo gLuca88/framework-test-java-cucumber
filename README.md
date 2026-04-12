@@ -106,3 +106,40 @@ Supporto multi-browser:
 
 - Modalità headless
 - Dimensione finestra fissa (test stabili)
+
+### ⚙️ Configurazione (ConfigReader)
+
+Il framework utilizza una classe ConfigReader per caricare dinamicamente i parametri di configurazione dai file .properties.
+
+📂 File di configurazione
+
+I file devono essere posizionati in:
+
+src/main/resources/
+
+Esempio:
+
+config-dev.properties
+config-qa.properties
+
+
+Se non viene specificato il parametro env, il framework utilizza automaticamente:
+
+config-dev.properties
+
+👉 Questo comportamento è gestito internamente dal ConfigReader.
+
+▶️ Esecuzione test da terminale
+
+Il framework permette di eseguire i test tramite Maven, scegliendo ambiente e scenari.
+
+🔹 Eseguire tutti i test
+mvn test
+
+
+🔹 Eseguire i test in ambiente QA
+mvn test -Denv=qa
+
+
+🔹 Esecuzione combinata
+mvn test "-Denv=qa" "-Dcucumber.filter.tags=@login"

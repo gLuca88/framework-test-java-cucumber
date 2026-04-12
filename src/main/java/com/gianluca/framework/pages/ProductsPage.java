@@ -26,9 +26,8 @@ public class ProductsPage extends BasePage {
                 && getTitlePageHtml().equalsIgnoreCase(EXPECTED_TITLE);
     }
 
-    public void executeLogout() throws InterruptedException {
+    public void executeLogout()  {
         actions.click(button_MenuHamburgher);
-        Thread.sleep(2000);
         actions.click(button_LogOut);
     }
 

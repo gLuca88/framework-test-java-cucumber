@@ -1,3 +1,4 @@
+@login
 Feature: Autenticazione utente
 
   Background:

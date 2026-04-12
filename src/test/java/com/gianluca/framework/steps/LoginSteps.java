@@ -9,15 +9,15 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.openqa.selenium.WebDriver;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class GenericsSteps {
+public class GenericsStepsLogin {
 
     private final TestContext context;
 
-    public GenericsSteps(TestContext context) {
+    public GenericsStepsLogin(TestContext context) {
         this.context = context;
     }
 
@@ -63,5 +63,56 @@ public class GenericsSteps {
         ReportUtil.log("Atteso: " + expectedResult + " - Ottenuto: " + actualResult);
         assertTrue(actualResult, "Login fallito: pagina prodotti non caricata correttamente");
         LoggerUtil.info("Verifica completata con successo");
+    }
+
+    @Then("visualizza il messaggio di errore {string}")
+    public void verifyErrorMessage(String expectedError) {
+
+        ReportUtil.log("Verifico messaggio di errore atteso");
+        LoggerUtil.info("Inizio verifica messaggio di errore");
+
+        LoginPage login = new LoginPage(context.getDriver());
+        String actualError = login.getMexError();
+
+        LoggerUtil.info("EXPECTED: " + expectedError);
+        LoggerUtil.info("ACTUAL: " + actualError);
+
+        ReportUtil.log("Atteso: " + expectedError + " - Ottenuto: " + actualError);
+
+        assertEquals(actualError, expectedError,
+                "Errore: il messaggio visualizzato non è corretto");
+
+        LoggerUtil.info("Verifica messaggio errore completata con successo");
+    }
+
+    @When("effettua il logout")
+    public void performLogout() throws InterruptedException {
+
+        ReportUtil.log("Eseguo logout utente");
+        LoggerUtil.info("Click su menu hamburger e selezione logout");
+
+        ProductsPage productsPage = new ProductsPage(context.getDriver());
+        productsPage.executeLogout();
+
+        LoggerUtil.info("Logout eseguito");
+    }
+
+    @Then("viene reindirizzato alla pagina di login")
+    public void verifyLoginPageIsLoaded() {
+
+        ReportUtil.log("Verifico che la pagina di login sia visibile");
+        LoggerUtil.info("Inizio verifica pagina login");
+
+        LoginPage loginPage = new LoginPage(context.getDriver());
+        boolean actualResult = loginPage.isPageLoginLoaded();
+
+        LoggerUtil.info("EXPECTED: true");
+        LoggerUtil.info("ACTUAL: " + actualResult);
+
+        ReportUtil.log("Atteso: true - Ottenuto: " + actualResult);
+
+        assertTrue(actualResult, "Errore: la pagina di login non è visibile dopo il logout");
+
+        LoggerUtil.info("Verifica pagina login completata con successo");
     }
 }

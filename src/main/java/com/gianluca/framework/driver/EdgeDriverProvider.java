@@ -2,11 +2,12 @@ package com.gianluca.framework.driver;
 
 import com.gianluca.framework.config.ConfigReader;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 
-public class EdgeDriverProvider implements WebDriverProvider{
+public class EdgeDriverProvider implements WebDriverProvider {
     @Override
     public WebDriver createDriver() {
 
@@ -18,6 +19,10 @@ public class EdgeDriverProvider implements WebDriverProvider{
             options.addArguments("--headless=new");
         }
 
-        return new EdgeDriver(options);
+        WebDriver driver = new EdgeDriver(options);
+
+        driver.manage().window().setSize(new Dimension(1920, 1080));
+
+        return driver;
     }
 }

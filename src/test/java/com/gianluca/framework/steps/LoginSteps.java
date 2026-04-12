@@ -13,11 +13,11 @@ import io.cucumber.java.en.When;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class GenericsStepsLogin {
+public class LoginSteps {
 
     private final TestContext context;
 
-    public GenericsStepsLogin(TestContext context) {
+    public LoginSteps(TestContext context) {
         this.context = context;
     }
 

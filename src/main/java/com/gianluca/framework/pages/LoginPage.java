@@ -10,30 +10,36 @@ public class LoginPage extends BasePage {
         super(driver);
     }
 
-    private By usernameField= By.id("user-name");
-    private By passwordField=By.id("password");
-    private By loginButton=By.id("login-button");
-    private By errorMessageLogin=By.cssSelector("h3[data-test='error']");
+    private By usernameField = By.id("user-name");
+    private By passwordField = By.id("password");
+    private By loginButton = By.id("login-button");
+    private By errorMessageLogin = By.cssSelector("h3[data-test='error']");
 
-    public void insertUserName(String text){
-        actions.type(usernameField,text);
+    public void insertUserName(String text) {
+        actions.type(usernameField, text);
     }
 
-    public void insertPassword(String text){
-        actions.type(passwordField,text);
+    public void insertPassword(String text) {
+        actions.type(passwordField, text);
     }
 
-    public void clickLogin(){
+    public void clickLogin() {
         actions.click(loginButton);
     }
 
-    public void login(String user,String passw){
+    public void login(String user, String passw) {
         insertUserName(user);
         insertPassword(passw);
     }
 
-    public String getMexError(){
-        return  actions.getText(errorMessageLogin);
+    public String getMexError() {
+
+        return actions.getText(errorMessageLogin);
+    }
+
+    public Boolean isPageLoginLoaded() {
+        return actions.isDisplayed(loginButton) && actions.isDisplayed(usernameField)
+                && actions.isDisplayed(passwordField);
     }
 
 }

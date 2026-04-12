@@ -13,6 +13,8 @@ public class ProductsPage extends BasePage {
     }
 
     private By container_ProductsTile = By.className("title");
+    private By button_MenuHamburgher=By.id("react-burger-menu-btn");
+    private By button_LogOut=By.cssSelector("a[data-test='logout-sidebar-link']");
 
     public String getTitlePage() {
         return actions.getText(container_ProductsTile);
@@ -22,6 +24,12 @@ public class ProductsPage extends BasePage {
         return actions.isDisplayed(container_ProductsTile)
                 && getCurrentUrl().contains(EXPECTED_URL_PART)
                 && getTitlePageHtml().equalsIgnoreCase(EXPECTED_TITLE);
+    }
+
+    public void executeLogout() throws InterruptedException {
+        actions.click(button_MenuHamburgher);
+        Thread.sleep(2000);
+        actions.click(button_LogOut);
     }
 
 }

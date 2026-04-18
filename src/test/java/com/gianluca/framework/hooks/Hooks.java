@@ -4,6 +4,7 @@ package com.gianluca.framework.hooks;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.gianluca.framework.context.TestContext;
+import com.gianluca.framework.core.expections.FrameworkException;
 import com.gianluca.framework.driver.DriverFactory;
 import com.gianluca.framework.reporting.ExtentManager;
 import com.gianluca.framework.reporting.ExtentTestManager;
@@ -25,10 +26,15 @@ public class Hooks {
     @Before
     public void setUp(Scenario scenario) {
 
-        context.setDriver(DriverFactory.getDriver());
+        try {
+            context.setDriver(DriverFactory.getDriver());
 
-        ExtentTest test = extent.createTest(scenario.getName());
-        ExtentTestManager.setTest(test);
+            ExtentTest test = extent.createTest(scenario.getName());
+            ExtentTestManager.setTest(test);
+
+        } catch (Exception e) {
+            throw new FrameworkException("Errore nel setup dello scenario", e);
+        }
     }
 
     // ===================== BEFORE STEP =====================
@@ -43,10 +49,14 @@ public class Hooks {
     @AfterStep
     public void afterStep(Scenario scenario) {
 
-        if (scenario.isFailed()) {
-            ExtentTestManager.getTest().fail("STEP FAILED");
-        } else {
-            ExtentTestManager.getTest().pass("STEP PASSED");
+        try {
+            if (scenario.isFailed()) {
+                ExtentTestManager.getTest().fail("STEP FAILED");
+            } else {
+                ExtentTestManager.getTest().pass("STEP PASSED");
+            }
+        } catch (Exception e) {
+            ReportUtil.log("Errore nel logging dello step: " + e.getMessage());
         }
     }
 
@@ -55,31 +65,42 @@ public class Hooks {
     @After
     public void tearDown(Scenario scenario) {
 
-        if (scenario.isFailed()) {
+        try {
 
-            ReportUtil.log("Scenario fallito - catturo screenshot");
+            if (scenario.isFailed()) {
 
-            String screenshotPath = ScreenshotUtil.takeScreenshot(
-                    context.getDriver(),
-                    scenario.getName()
-            );
+                ReportUtil.log("Scenario fallito - catturo screenshot");
 
-            try {
-                ExtentTestManager.getTest()
-                        .fail("Scenario FAILED")
-                        .addScreenCaptureFromPath(screenshotPath);
-            } catch (Exception e) {
-                throw new RuntimeException("Errore allegando screenshot", e);
+                String screenshotPath = ScreenshotUtil.takeScreenshot(
+                        context.getDriver(),
+                        scenario.getName()
+                );
+
+                try {
+                    ExtentTestManager.getTest()
+                            .fail("Scenario FAILED")
+                            .addScreenCaptureFromPath(screenshotPath);
+                } catch (Exception e) {
+                    ReportUtil.log("Errore allegando screenshot: " + e.getMessage());
+                }
+
+            } else {
+                ExtentTestManager.getTest().pass("Scenario PASSED");
             }
 
-        } else {
-            ExtentTestManager.getTest().pass("Scenario PASSED");
-        }
+        } catch (Exception e) {
+            ReportUtil.log("Errore generale nel teardown: " + e.getMessage());
+        } finally {
 
-        if (context.getDriver() != null) {
-            context.getDriver().quit();
-        }
+            try {
+                if (context.getDriver() != null) {
+                    context.getDriver().quit();
+                }
+            } catch (Exception e) {
+                ReportUtil.log("Errore chiusura driver: " + e.getMessage());
+            }
 
-        extent.flush();
+            extent.flush();
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.gianluca.framework.steps;
 
+import com.gianluca.framework.config.ConfigReader;
 import com.gianluca.framework.context.TestContext;
 import com.gianluca.framework.pages.LoginPage;
 import com.gianluca.framework.pages.ProductsPage;
@@ -27,7 +28,7 @@ public class LoginSteps {
         ReportUtil.log("Apro il sito SauceDemo");
         LoggerUtil.info("Navigazione verso SauceDemo");
 
-        context.getDriver().get("https://www.saucedemo.com/");
+        context.getDriver().get(ConfigReader.getProperty("baseUrl"));
     }
 
     @When("inserisce username {string} e password {string}")

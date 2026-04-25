@@ -17,9 +17,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class LoginSteps {
 
     private final TestContext context;
+    private LoginPage loginPage;
+    private ProductsPage productsPage;
 
     public LoginSteps(TestContext context) {
         this.context = context;
+        this.loginPage = new LoginPage(context.getDriver());
+        this.productsPage = new ProductsPage(context.getDriver());
     }
 
     @Given("l'utente apre il sito")
@@ -37,8 +41,7 @@ public class LoginSteps {
         ReportUtil.log("Inserisco username: " + userName + " e password");
         LoggerUtil.info("Inserimento credenziali utente: " + userName);
 
-        LoginPage login = new LoginPage(context.getDriver());
-        login.login(userName, password);
+        loginPage.login(userName, password);
     }
 
     @And("clicca sul bottone login")
@@ -47,8 +50,7 @@ public class LoginSteps {
         ReportUtil.log("Clicco sul bottone login");
         LoggerUtil.info("Click sul bottone login");
 
-        LoginPage login = new LoginPage(context.getDriver());
-        login.clickLogin();
+        loginPage.clickLogin();
     }
 
     @Then("viene reindirizzato alla pagina dei prodotti")
@@ -56,13 +58,17 @@ public class LoginSteps {
 
         ReportUtil.log("Verifico che la pagina prodotti sia caricata");
         LoggerUtil.info("Inizio verifica pagina prodotti");
-        ProductsPage productsPage = new ProductsPage(context.getDriver());
+
         boolean actualResult = productsPage.isPageProductsLoaded();
         boolean expectedResult = true;
+
         LoggerUtil.info("EXPECTED: " + expectedResult);
         LoggerUtil.info("ACTUAL: " + actualResult);
+
         ReportUtil.log("Atteso: " + expectedResult + " - Ottenuto: " + actualResult);
+
         assertTrue(actualResult, "Login fallito: pagina prodotti non caricata correttamente");
+
         LoggerUtil.info("Verifica completata con successo");
     }
 
@@ -72,8 +78,7 @@ public class LoginSteps {
         ReportUtil.log("Verifico messaggio di errore atteso");
         LoggerUtil.info("Inizio verifica messaggio di errore");
 
-        LoginPage login = new LoginPage(context.getDriver());
-        String actualError = login.getMexError();
+        String actualError = loginPage.getMexError();
 
         LoggerUtil.info("EXPECTED: " + expectedError);
         LoggerUtil.info("ACTUAL: " + actualError);
@@ -87,12 +92,11 @@ public class LoginSteps {
     }
 
     @When("effettua il logout")
-    public void performLogout()  {
+    public void performLogout() {
 
         ReportUtil.log("Eseguo logout utente");
         LoggerUtil.info("Click su menu hamburger e selezione logout");
 
-        ProductsPage productsPage = new ProductsPage(context.getDriver());
         productsPage.executeLogout();
 
         LoggerUtil.info("Logout eseguito");
@@ -104,7 +108,6 @@ public class LoginSteps {
         ReportUtil.log("Verifico che la pagina di login sia visibile");
         LoggerUtil.info("Inizio verifica pagina login");
 
-        LoginPage loginPage = new LoginPage(context.getDriver());
         boolean actualResult = loginPage.isPageLoginLoaded();
 
         LoggerUtil.info("EXPECTED: true");
@@ -112,7 +115,8 @@ public class LoginSteps {
 
         ReportUtil.log("Atteso: true - Ottenuto: " + actualResult);
 
-        assertTrue(actualResult, "Errore: la pagina di login non è visibile dopo il logout");
+        assertTrue(actualResult,
+                "Errore: la pagina di login non è visibile dopo il logout");
 
         LoggerUtil.info("Verifica pagina login completata con successo");
     }

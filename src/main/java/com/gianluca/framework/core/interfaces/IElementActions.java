@@ -1,6 +1,9 @@
 package com.gianluca.framework.core.interfaces;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 public interface IElementActions {
     void click(By locator);
@@ -10,4 +13,6 @@ public interface IElementActions {
     String getText(By locator);
 
     boolean isDisplayed(By locator);
+
+    List<WebElement> getElements(By locator);
 }

@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 public class WaitStrategy implements IWaitStrategy {
 
@@ -54,6 +55,16 @@ public class WaitStrategy implements IWaitStrategy {
     @Override
     public WebElement waitForElementPresent(By locator) {
         return defaultWait.until(ExpectedConditions.presenceOfElementLocated(locator));
+    }
+
+    @Override
+    public List<WebElement> waitForElementsVisible(By locator) {
+       return  defaultWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
+    }
+
+    @Override
+    public List<WebElement> waitForElementsVisible(By locator, int timeout) {
+        return getWait(timeout).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
     }
 
     // ===================== INVISIBLE =====================

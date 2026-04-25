@@ -6,6 +6,9 @@ import com.gianluca.framework.core.interfaces.IWaitStrategy;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import java.util.List;
 
 public class ElementActions implements IElementActions {
 
@@ -55,4 +58,11 @@ public class ElementActions implements IElementActions {
             return false;
         }
     }
+
+    @Override
+    public List<WebElement> getElements(By locator) {
+        return wait.waitForElementsVisible(locator);
+    }
+
+
 }

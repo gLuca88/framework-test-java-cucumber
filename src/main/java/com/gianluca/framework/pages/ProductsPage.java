@@ -25,10 +25,16 @@ public class ProductsPage extends BasePage {
     private By container_Price = By.className("inventory_item_price");
 
 
+
+
     public String getTitlePage() {
         return actions.getText(container_ProductsTile);
     }
 
+    public By getProductLink(String productName){
+        return By.xpath("//a[.//div[@data-test='inventory-item-name' and normalize-space()='"
+                + productName + "']]");
+    }
 
     public boolean isPageProductsLoaded() {
         return actions.isDisplayed(container_ProductsTile)
@@ -75,6 +81,16 @@ public class ProductsPage extends BasePage {
 
         return true;
     }
+
+    public void clickNameProduct(String nameproduct){
+        actions.click(getProductLink(nameproduct));
+    }
+
+
+
+
+
+
 
 
 }

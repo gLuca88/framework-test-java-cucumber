@@ -8,5 +8,9 @@ import static io.cucumber.junit.platform.engine.Constants.GLUE_PROPERTY_NAME;
 @Suite
 @SelectClasspathResource("features")
 @ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "com.gianluca.framework")
-public class TestRunnerAllFile {
+@ConfigurationParameter(
+        key = "cucumber.filter.tags",
+        value = "@products"
+)
+public class ProductsTestRunner {
 }

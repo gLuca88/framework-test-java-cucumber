@@ -59,10 +59,16 @@ public class ElementActions implements IElementActions {
         }
     }
 
+    public List<WebElement> waitForElementsVisible(By locator) {
+        try {
+            return wait.waitForElementsVisible(locator);
+        } catch (Exception e) {
+            throw new FrameworkException("Errore durante waitForElementsVisible su: " + locator, e);
+        }
+    }
     @Override
     public List<WebElement> getElements(By locator) {
-        return wait.waitForElementsVisible(locator);
+        return driver.findElements(locator);
     }
-
 
 }

@@ -14,5 +14,7 @@ public interface IElementActions {
 
     boolean isDisplayed(By locator);
 
+    List<WebElement> waitForElementsVisible(By locator);
+
     List<WebElement> getElements(By locator);
 }

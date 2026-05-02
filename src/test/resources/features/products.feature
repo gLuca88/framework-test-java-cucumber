@@ -17,3 +17,13 @@ Feature: Gestione pagina prodotti - SauceDemo
     When l'utente clicca sul prodotto "Sauce Labs Backpack"
     Then viene aperta la pagina di dettaglio prodotto
     And il nome del prodotto è corretto
+
+  @cart @functional
+  Scenario: Il carrello è vuoto al primo accesso
+    Then il badge del carrello non è visibile
+
+  @cart @functional
+  Scenario: Aggiunta prodotto aggiorna badge e stato pulsante
+    When l'utente aggiunge un prodotto al carrello
+    Then il badge del carrello mostra 1
+    And il pulsante cambia in "Remove"

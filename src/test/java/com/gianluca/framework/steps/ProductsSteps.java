@@ -9,8 +9,9 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ProductsSteps {
 
@@ -105,4 +106,70 @@ public class ProductsSteps {
         assertEquals(expectedProductName, actualName,
                 "Errore: il nome prodotto non corrisponde");
     }
+
+    @Then("il badge del carrello non è visibile")
+    public void verifiyBadgeIsVisible() {
+
+        boolean actual = productsPage.isBadgeIsVisible();
+        boolean expected = false;
+
+        LoggerUtil.info("EXPECTED: " + expected);
+        LoggerUtil.info("ACTUAL: " + actual);
+
+        ReportUtil.log("Verifica badge non visibile - Atteso: "
+                + expected + " - Ottenuto: " + actual);
+
+        assertFalse(actual,
+                "Errore: il badge del carrello è visibile quando non dovrebbe");
+
+        LoggerUtil.info("Verifica badge non visibile completata con successo");
+    }
+
+    @When("l'utente aggiunge un prodotto al carrello")
+    public void addProductsToCart(){
+
+        ReportUtil.log("Aggiunta prodotto al carrello");
+        LoggerUtil.info("Click su add to cart per 1 prodotto");
+
+        productsPage.clickAddProduct(1);
+
+        LoggerUtil.info("Prodotto aggiunto al carrello");
+    }
+
+    @Then("il badge del carrello mostra 1")
+    public void verifyBadgeCart(){
+
+        int actual = productsPage.getTextBadgeCart();
+        int expected = 1;
+
+        LoggerUtil.info("EXPECTED: " + expected);
+        LoggerUtil.info("ACTUAL: " + actual);
+
+        ReportUtil.log("Verifica badge carrello - Atteso: "
+                + expected + " - Ottenuto: " + actual);
+
+        assertEquals(expected, actual,
+                "Errore: numero badge carrello non corretto");
+
+        LoggerUtil.info("Verifica badge completata con successo");
+    }
+
+    @And("il pulsante cambia in {string}")
+    public void verifyTextButtonAddToCart(String textButton){
+
+        List<String> extractedText = productsPage.getTextButtonsAddToCart(1);
+        String actualText = extractedText.get(0);
+
+        LoggerUtil.info("EXPECTED: " + textButton);
+        LoggerUtil.info("ACTUAL: " + actualText);
+
+        ReportUtil.log("Verifica testo bottone - Atteso: "
+                + textButton + " - Ottenuto: " + actualText);
+
+        assertEquals(textButton, actualText,
+                "Errore: testo bottone non corretto");
+
+        LoggerUtil.info("Verifica testo bottone completata con successo");
+    }
+
 }

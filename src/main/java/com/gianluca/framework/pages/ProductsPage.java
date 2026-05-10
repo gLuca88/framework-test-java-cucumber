@@ -26,11 +26,10 @@ public class ProductsPage extends BasePage {
     private By container_Price = By.className("inventory_item_price");
     private By badge_cart = By.cssSelector("[data-test='shopping-cart-badge']");
     private By button_addToCart = By.xpath("//button[contains(@class,'btn btn_primary')]");
-    private By button_Remove_AfterAdd=By.xpath("//button[contains(@class,'btn btn_secondary')]");
+    private By button_Remove_AfterAdd = By.xpath("//button[contains(@class,'btn btn_secondary')]");
+    private By selectSorting = By.className("product_sort_container");
 
-    public String getTitlePage() {
-        return actions.getText(container_ProductsTile);
-    }
+
 
     public By getProductLink(String productName) {
         return By.xpath("//a[.//div[@data-test='inventory-item-name' and normalize-space()='"
@@ -119,5 +118,30 @@ public class ProductsPage extends BasePage {
         return testProducts;
     }
 
+    public void selectSortingOption(String sortingOption) {
+
+        actions.selectByVisibleText(selectSorting, sortingOption);
+    }
+
+    public List<String> getAllProductNames() {
+
+        List<WebElement> products =
+                actions.waitForElementsVisible(container_NameProduct);
+
+        return products.stream()
+                .map(WebElement::getText)
+                .toList();
+    }
+
+    public List<Double> getAllProductPrices() {
+
+        List<WebElement> prices =
+                actions.waitForElementsVisible(container_Price);
+
+        return prices.stream()
+                .map(e -> e.getText().replace("$", ""))
+                .map(Double::parseDouble)
+                .toList();
+    }
 
 }

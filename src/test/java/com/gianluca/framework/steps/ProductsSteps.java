@@ -5,6 +5,7 @@ import com.gianluca.framework.pages.ProductDetailPage;
 import com.gianluca.framework.pages.ProductsPage;
 import com.gianluca.framework.reporting.ReportUtil;
 import com.gianluca.framework.utils.LoggerUtil;
+import com.gianluca.framework.utils.SortingUtils;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -126,7 +127,7 @@ public class ProductsSteps {
     }
 
     @When("l'utente aggiunge un prodotto al carrello")
-    public void addProductsToCart(){
+    public void addProductsToCart() {
 
         ReportUtil.log("Aggiunta prodotto al carrello");
         LoggerUtil.info("Click su add to cart per 1 prodotto");
@@ -137,7 +138,7 @@ public class ProductsSteps {
     }
 
     @Then("il badge del carrello mostra 1")
-    public void verifyBadgeCart(){
+    public void verifyBadgeCart() {
 
         int actual = productsPage.getTextBadgeCart();
         int expected = 1;
@@ -155,7 +156,7 @@ public class ProductsSteps {
     }
 
     @And("il pulsante cambia in {string}")
-    public void verifyTextButtonAddToCart(String textButton){
+    public void verifyTextButtonAddToCart(String textButton) {
 
         List<String> extractedText = productsPage.getTextButtonsAddToCart(1);
         String actualText = extractedText.get(0);
@@ -170,6 +171,74 @@ public class ProductsSteps {
                 "Errore: testo bottone non corretto");
 
         LoggerUtil.info("Verifica testo bottone completata con successo");
+    }
+
+    @When("l'utente seleziona {string}")
+    public void userSelectsSortingOption(String sortingOption) {
+
+        ReportUtil.log("Selezione ordinamento prodotti: " + sortingOption);
+        LoggerUtil.info("Selezione ordinamento: " + sortingOption);
+
+        productsPage.selectSortingOption(sortingOption);
+
+        LoggerUtil.info("Ordinamento selezionato correttamente");
+    }
+
+    @Then("i prodotti sono ordinati {string}")
+    public void verifyProductsSorting(String sortingType) {
+
+        ReportUtil.log("Verifica ordinamento prodotti: " + sortingType);
+        LoggerUtil.info("Verifica ordinamento: " + sortingType);
+
+        boolean actualResult = false;
+
+        switch (sortingType) {
+
+            case "Name (A to Z)":
+
+                actualResult =
+                        SortingUtils.isAlphabeticallyAscending(
+                                productsPage.getAllProductNames());
+
+                break;
+
+            case "Name (Z to A)":
+
+                actualResult =
+                        SortingUtils.isAlphabeticallyDescending(
+                                productsPage.getAllProductNames());
+
+                break;
+
+            case "Price (low to high)":
+
+                actualResult =
+                        SortingUtils.isPriceAscending(
+                                productsPage.getAllProductPrices());
+
+                break;
+
+            case "Price (high to low)":
+
+                actualResult =
+                        SortingUtils.isPriceDescending(
+                                productsPage.getAllProductPrices());
+
+                break;
+
+            default:
+
+                throw new IllegalArgumentException(
+                        "Tipo ordinamento non supportato: "
+                                + sortingType);
+        }
+
+        LoggerUtil.info("ACTUAL: " + actualResult);
+
+        assertTrue(actualResult,
+                "Errore ordinamento prodotti: " + sortingType);
+
+        LoggerUtil.info("Verifica ordinamento completata con successo");
     }
 
 }

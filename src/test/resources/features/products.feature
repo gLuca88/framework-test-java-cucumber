@@ -27,3 +27,23 @@ Feature: Gestione pagina prodotti - SauceDemo
     When l'utente aggiunge un prodotto al carrello
     Then il badge del carrello mostra 1
     And il pulsante cambia in "Remove"
+
+  @sorting @functional
+  Scenario: Ordinamento prodotti per nome dalla A alla Z
+    When l'utente seleziona "Name (A to Z)"
+    Then i prodotti sono ordinati "Name (A to Z)"
+
+  @sorting @functional
+  Scenario: Ordinamento prodotti per nome dalla Z alla A
+    When l'utente seleziona "Name (Z to A)"
+    Then i prodotti sono ordinati "Name (Z to A)"
+
+  @sorting @functional
+  Scenario: Ordinamento prodotti per prezzo crescente
+    When l'utente seleziona "Price (low to high)"
+    Then i prodotti sono ordinati "Price (low to high)"
+
+  @sorting @functional
+  Scenario: Ordinamento prodotti per prezzo decrescente
+    When l'utente seleziona "Price (high to low)"
+    Then i prodotti sono ordinati "Price (high to low)"

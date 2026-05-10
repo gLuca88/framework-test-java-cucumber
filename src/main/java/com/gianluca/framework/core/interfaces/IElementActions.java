@@ -17,4 +17,6 @@ public interface IElementActions {
     List<WebElement> waitForElementsVisible(By locator);
 
     List<WebElement> getElements(By locator);
+
+    void selectByVisibleText(By locator,String text);
 }

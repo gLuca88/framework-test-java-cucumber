@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 
@@ -66,9 +67,29 @@ public class ElementActions implements IElementActions {
             throw new FrameworkException("Errore durante waitForElementsVisible su: " + locator, e);
         }
     }
+
     @Override
     public List<WebElement> getElements(By locator) {
         return driver.findElements(locator);
+    }
+
+    @Override
+    public void selectByVisibleText(By locator, String text) {
+
+        try {
+
+            WebElement element = wait.waitForElementVisible(locator);
+
+            Select select = new Select(element);
+
+            select.selectByVisibleText(text);
+
+        } catch (Exception e) {
+
+            throw new FrameworkException(
+                    "Errore durante selectByVisibleText su: "
+                            + locator + " valore: " + text, e);
+        }
     }
 
 }
